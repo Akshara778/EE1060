@@ -58,7 +58,7 @@ for i in range(3):
     ax1.set_title(case)
     ax1.grid(True)
     #saving the plots
-    plt.savefig("Case_" + str(i + 1) + ".png")
+    plt.savefig("figs/Case_" + str(i + 1) + ".png")
     plt.show()
 
     T /= 10
