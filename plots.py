@@ -10,6 +10,7 @@ amp = 1
 T = 10
 h = 0.001
 n = 100000
+n_alpha = 20000
 cases = ["<<", "=", ">>"]
 
 #plotting for the 3 cases of l/r
@@ -26,7 +27,7 @@ for i in range(3):
     ax1.plot(nm.rl_adams_bashforth_moulton(r, l, alpha, amp, T, h, n)[0], nm.rl_adams_bashforth_moulton(r, l, alpha, amp, T, h, n)[1], label = "Adams Bashforth Moulton")
     #plt.plot(nm.rl_milne_simpson(r, l, alpha, amp, T, h, n)[0], nm.rl_milne_simpson(r, l, alpha, amp, T, h, n)[1], label = "Milne Simpson")
     ax1.legend()
-    case = "Case " + str(i + 1) + ": l/r " + cases[i] + " T, alpha = 1/8"
+    case = "Case " + str(i + 1) + ": L/R " + cases[i] + " T, alpha = 1/8"
     ax1.set_title(case)
     ax1.grid(True)
 
@@ -40,7 +41,7 @@ for i in range(3):
     ax1.plot(nm.rl_adams_bashforth_moulton(r, l, alpha, amp, T, h, n)[0], nm.rl_adams_bashforth_moulton(r, l, alpha, amp, T, h, n)[1], label = "Adams Bashforth Moulton")
     #plt.plot(nm.rl_milne_simpson(r, l, alpha, amp, T, h, n)[0], nm.rl_milne_simpson(r, l, alpha, amp, T, h, n)[1], label = "Milne Simpson")
     ax1.legend()
-    case = "Case " + str(i + 1) + ": l/r " + cases[i] + " T, alpha = 1/2"
+    case = "Case " + str(i + 1) + ": L/R " + cases[i] + " T, alpha = 1/2"
     ax1.set_title(case)
     ax1.grid(True)
 
@@ -54,11 +55,26 @@ for i in range(3):
     ax1.plot(nm.rl_adams_bashforth_moulton(r, l, alpha, amp, T, h, n)[0], nm.rl_adams_bashforth_moulton(r, l, alpha, amp, T, h, n)[1], label = "Adams Bashforth Moulton")
     #plt.plot(nm.rl_milne_simpson(r, l, alpha, amp, T, h, n)[0], nm.rl_milne_simpson(r, l, alpha, amp, T, h, n)[1], label = "Milne Simpson")
     ax1.legend()
-    case = "Case " + str(i + 1) + ": l/r " + cases[i] + " T, alpha = 7/8"
+    case = "Case " + str(i + 1) + ": L/R " + cases[i] + " T, alpha = 7/8"
     ax1.set_title(case)
     ax1.grid(True)
     #saving the plots
     plt.savefig("figs/Case_" + str(i + 1) + ".png")
+    plt.show()
+
+    #General case for all values of alpha
+    plt.figure()
+    ax = plt.axes(projection='3d')
+    alpha = np.linspace(0, 1, 50)
+    time = np.linspace(0, 20, n_alpha)
+    for j in alpha:
+        ax.plot3D(time, np.full_like(time, j), nm.rl_rk4(r, l, j, amp, T, h, n_alpha)[1][:])
+    ax.set_xlabel("Time")
+    ax.set_ylabel("Alpha")
+    ax.set_zlabel("Current")
+    ax.set_title("General Case: L/R " + cases[i] + " T")
+    ax.view_init(elev = 25, azim = -108)
+    plt.savefig("figs/General_Case_" + str(i + 1) + ".png")
     plt.show()
 
     T /= 10
