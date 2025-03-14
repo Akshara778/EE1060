@@ -29,7 +29,7 @@ for j in range(3):
         i_t = fs.compute_current(R, L, w0, t, alpha)
         axes[i].plot(t, i_t, color='purple', linewidth=1)
         axes[i].set_ylabel("Current (i)")
-        axes[i].set_title("Case " + str(j + 1) + ": L/R " + case[i] + " T, " + titles[i])
+        axes[i].set_title("Case " + str(j + 1) + ": L/R " + case[j] + " T, " + titles[i])
         axes[i].grid(True)
     axes[-1].set_xlabel("Time (t)")
     plt.tight_layout()
