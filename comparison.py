@@ -33,15 +33,15 @@ t = np.linspace(0, 2 * T, 1000)
 
 print("Error over one interval between the actual square wave and the Fourier series approximation:")
 print("When N = 10:", error(T, alpha, N, amp))
-print("When N = 100:", error(T, alpha, N * 10, amp))
-print("When N = 1000:", error(T, alpha, N * 100, amp))
+print("When N = 50:", error(T, alpha, N * 5, amp))
+print("When N = 200:", error(T, alpha, N * 20, amp))
 print("When N = 5000:", error(T, alpha, N * 500, amp))
 
 plt.figure(figsize=(10, 5))
 
 plt.plot(t, square(t, T, alpha, amp), label="Square Wave", color="black", linewidth=2, linestyle="dashed")
 plt.plot(t, fourier_series(t, T, alpha, N), linewidth=2, label = "N = 10")
-plt.plot(t, fourier_series(t, T, alpha, 10 * N), linewidth=2, label = "N = 100")
+plt.plot(t, fourier_series(t, T, alpha, 5 * N), linewidth=2, label = "N = 50")
 plt.plot(t, fourier_series(t, T, alpha, 100 * N), linewidth=2, label = "N = 1000")
 plt.plot(t, fourier_series(t, T, alpha, 1000 * N), linewidth=2, label = "N = 5000")
 plt.xlabel("t")
