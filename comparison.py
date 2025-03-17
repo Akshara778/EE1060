@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+import numerical_methods as nm
+import fourier_series as fs
 
 #creting directory for figures
 os.makedirs('figs', exist_ok=True)
@@ -8,12 +10,13 @@ os.makedirs('figs', exist_ok=True)
 
 T = 10         # Period of the square wave
 alpha = 0.5    # Duty cycle (fraction of the period the wave is "high")
-N = 10         # Number of Fourier series terms
+N = 1000        # Number of Fourier series terms
+h = 0.001      # Step size
 amp = 10       # Amplitude of the square wave
 
 def square(t, T, alpha, amp):
     return np.where((t % T) < T * alpha, amp, 0)
-    
+
 def fourier_series(t, T, alpha, N, amp = 10):
     sum = amp * alpha
     for k in range(1, N + 1):
@@ -22,32 +25,33 @@ def fourier_series(t, T, alpha, N, amp = 10):
         sum += (ak * np.cos(k * 2 * np.pi * t / T) + bk * np.sin(k * 2 * np.pi * t / T))
     return sum
 
-def error(T, alpha, N, amp = 10):
-    err = 0
-    t = np.linspace(0, T, 1000)
-    for i in t:
-        err += abs(square(i, T, alpha, amp) - fourier_series(i, T, alpha, N, amp))
-    return err
+def rl_forward_euler_square(r, l, alpha, amp, T, h, n):
+    t_coord = []
+    i_coord = []
+    t = 0
+    i = 0
+    for j in range(n):
+        t_coord.append(t)
+        i_coord.append(i)
+        i = i + (((square(t, T, alpha, amp) / l) - ((i * r) / l)) * h)
+        t += h
+    return i_coord
 
-t = np.linspace(0, 2 * T, 1000)
+def rl_forward_euler_fourier(r, l, alpha, amp, T, h, n):
+    t_coord = []
+    i_coord = []
+    t = 0
+    i = 0
+    for j in range(n):
+        t_coord.append(t)
+        i_coord.append(i)
+        i = i + (((fourier_series(t, T, alpha, N) / l) - ((i * r) / l)) * h)
+        t += h
+    return i_coord
 
-print("Error over one interval between the actual square wave and the Fourier series approximation:")
-print("When N = 10:", error(T, alpha, N, amp))
-print("When N = 50:", error(T, alpha, N * 5, amp))
-print("When N = 200:", error(T, alpha, N * 20, amp))
-print("When N = 5000:", error(T, alpha, N * 500, amp))
 
-plt.figure(figsize=(10, 5))
-
-plt.plot(t, square(t, T, alpha, amp), label="Square Wave", color="black", linewidth=2, linestyle="dashed")
-plt.plot(t, fourier_series(t, T, alpha, N), linewidth=2, label = "N = 10")
-plt.plot(t, fourier_series(t, T, alpha, 5 * N), linewidth=2, label = "N = 50")
-plt.plot(t, fourier_series(t, T, alpha, 100 * N), linewidth=2, label = "N = 1000")
-plt.plot(t, fourier_series(t, T, alpha, 1000 * N), linewidth=2, label = "N = 5000")
-plt.xlabel("t")
-plt.ylabel(r"$V_{in}$" + "(t)")
-plt.legend()
-plt.grid(True)
-plt.title("Fourier Series Approximation of a Square Wave")
-plt.savefig("figs/fourier_vs_actual.png")
-plt.show()
+i1 = rl_forward_euler_fourier(1, 1, alpha, amp, T, h, 1000)
+i2 = rl_forward_euler_square(1, 1, alpha, amp, T, h, 1000)
+error = np.array(i1) - np.array(i2)
+err = np.linalg.norm(error, ord = 1)
+print("Max error: ", err)
