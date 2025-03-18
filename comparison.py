@@ -10,7 +10,6 @@ os.makedirs('figs', exist_ok=True)
 
 T = 10         # Period of the square wave
 alpha = 0.5    # Duty cycle (fraction of the period the wave is "high")
-N = 1000        # Number of Fourier series terms
 h = 0.001      # Step size
 amp = 10       # Amplitude of the square wave
 
@@ -25,6 +24,20 @@ def fourier_series(t, T, alpha, N, amp = 10):
         sum += (ak * np.cos(k * 2 * np.pi * t / T) + bk * np.sin(k * 2 * np.pi * t / T))
     return sum
 
+
+#plotting the variation of the fourier series approximation of the input wave with N
+t = np.linspace(0, 2 * T, 1000)
+plt.plot(t, square(t, T, alpha, amp), linestyle = "--", color = "black", label = "Square")
+plt.plot(t, fourier_series(t, T, alpha, 10, amp), label = "N = 10")
+plt.plot(t, fourier_series(t, T, alpha, 50, amp), label = "N = 50")
+plt.plot(t, fourier_series(t, T, alpha, 100, amp), label = "N = 100")
+plt.plot(t, fourier_series(t, T, alpha, 1000, amp), label = "N = 1000")
+plt.title("Fourier Series approximation of input wave")
+plt.legend()
+plt.grid(True)
+plt.savefig("figs/input_wave.png")
+plt.show()
+
 def rl_forward_euler_square(r, l, alpha, amp, T, h, n):
     t_coord = []
     i_coord = []
@@ -37,7 +50,7 @@ def rl_forward_euler_square(r, l, alpha, amp, T, h, n):
         t += h
     return i_coord
 
-def rl_forward_euler_fourier(r, l, alpha, amp, T, h, n):
+def rl_forward_euler_fourier(r, l, alpha, amp, T, h, N, n):
     t_coord = []
     i_coord = []
     t = 0
@@ -50,8 +63,29 @@ def rl_forward_euler_fourier(r, l, alpha, amp, T, h, n):
     return i_coord
 
 
-i1 = rl_forward_euler_fourier(1, 1, alpha, amp, T, h, 1000)
-i2 = rl_forward_euler_square(1, 1, alpha, amp, T, h, 1000)
-error = np.array(i1) - np.array(i2)
-err = np.linalg.norm(error, ord = 1)
-print("Max error: ", err)
+#comparing the mean absolute error between the current response of the fourier series and the actual square wave input got through the forward euler numerical method
+i1 = rl_forward_euler_square(1, 1, alpha, amp, T, h, 1000)
+
+print("Mean Absolute Error in current when:")
+
+i2_10 = rl_forward_euler_fourier(1, 1, alpha, amp, T, h, 10, 1000)
+error_10 = np.array(i1) - np.array(i2_10)
+err_10 = np.linalg.norm(error_10, ord = 1)
+print("N = 10 :", err_10 / 10)
+
+i2_50 = rl_forward_euler_fourier(1, 1, alpha, amp, T, h, 50, 1000)
+error_50 = np.array(i1) - np.array(i2_50)
+err_50 = np.linalg.norm(error_50, ord = 1)
+print("N = 50 :", err_50 / 50)
+
+i2_100 = rl_forward_euler_fourier(1, 1, alpha, amp, T, h, 100, 1000)
+error_100 = np.array(i1) - np.array(i2_100)
+err_100 = np.linalg.norm(error_100, ord = 1)
+print("N = 100 :", err_100 / 100)
+
+i2_1000 = rl_forward_euler_fourier(1, 1, alpha, amp, T, h, 1000, 1000)
+error_1000 = np.array(i1) - np.array(i2_1000)
+err_1000 = np.linalg.norm(error_1000, ord = 1)
+print("N = 1000 :", err_1000 / 1000)
+
+#here we can see that the error due to each term, that is the mean absolute error resuces to a great extent as N increases
