@@ -4,7 +4,7 @@ import os
 import numerical_methods as nm
 import fourier_series as fs
 
-#creting directory for figures
+#Creating directory for figures
 os.makedirs('figs', exist_ok=True)
 
 
