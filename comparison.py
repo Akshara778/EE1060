@@ -7,7 +7,9 @@ import fourier_series as fs
 #Creating directory for figures
 os.makedirs('figs', exist_ok=True)
 
-
+R = 1          # Resistance
+L = 1          # Inductance
+w0 = np.pi / 5 # Fundamental frequency
 T = 10         # Period of the square wave
 alpha = 0.5    # Duty cycle (fraction of the period the wave is "high")
 h = 0.001      # Step size
@@ -27,7 +29,6 @@ def fourier_series(t, T, alpha, N, amp = 10):
         sum += (ak * np.cos(k * 2 * np.pi * t / T) + bk * np.sin(k * 2 * np.pi * t / T))
     return sum
 
-
 #plotting the variation of the fourier series approximation of the input wave with N
 t = np.linspace(0, 2 * T, 1000)
 plt.plot(t, square(t, T, alpha, amp), linestyle = "--", color = "black", label = "Square")
@@ -42,6 +43,21 @@ plt.legend()
 plt.grid(True)
 plt.savefig("figs/input_wave.png")
 plt.show()
+
+
+
+
+t = np.linspace(0, 100, 5000)
+plt.plot(t, fs.compute_current(R, L, w0 * 10, t, alpha), color = "purple", linewidth = 1, label = "Fourier Series")
+plt.plot(nm.rl_rk4(R, L, alpha, amp, T/10, 1/50, 5000)[0][:], nm.rl_rk4(R, L, alpha, amp, T/10, 1/50, 5000)[1][:], label = "RK4")
+plt.title("Current response of the numerical methods vs the fourier series approximation")
+plt.xlabel("Time (t)")
+plt.ylabel("Current (i)")
+plt.legend()
+plt.grid(True)
+#plt.savefig("figs/fourier_vs_actual.png")
+plt.show()
+
 
 #current response of the RL circuit to the square wave input
 def rl_forward_euler_square(r, l, alpha, amp, T, h, n):

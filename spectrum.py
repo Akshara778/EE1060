@@ -40,3 +40,30 @@ for idx, alpha in enumerate(alpha_vals):
 plt.tight_layout()
 plt.savefig("figs/magnitude_spectrum.png")
 plt.show()
+
+
+# 3D plot of the magnitude spectrum
+alpha_vals = np.linspace(0, 1, 20)
+k_vals = np.arange(-50, 51, 5)
+
+fig = plt.figure(figsize=(10, 7))
+ax1 = fig.add_subplot(111, projection='3d')
+
+for alpha in alpha_vals:
+    Ck = np.zeros_like(k_vals, dtype=float)
+    for i, val in enumerate(k_vals):
+        if val != 0:
+            Ck[i] = np.abs((20 / (np.pi * val)) * np.sin(np.pi * val * alpha))
+        else:
+            Ck[i] = 19.5
+    for i in range(len(k_vals)):
+        ax1.plot([alpha, alpha], [k_vals[i], k_vals[i]], [0, Ck[i]], 'k-', linewidth=0.5)  # Stem line
+        ax1.scatter(alpha, k_vals[i], Ck[i], color='b', s=10)  # Marker at the top
+
+ax1.set_xlabel(r"$\alpha$")
+ax1.set_ylabel("k")
+ax1.set_zlabel(r"$|C_k|$")
+ax1.view_init(elev = 19, azim = 165)
+ax1.set_title("3D plot of Magnitude Spectrum")
+plt.savefig("figs/3d_magnitude_spectrum.png")
+plt.show()
