@@ -11,7 +11,7 @@ R = 1          # Resistance
 L = 1          # Inductance
 w0 = np.pi / 5 # Fundamental frequency
 T = 10         # Period of the square wave
-alpha = 0.5    # Duty cycle (fraction of the period the wave is "high")
+alpha = 0.4    # Duty cycle (fraction of the period the wave is "high")
 h = 0.001      # Step size
 amp = 10       # Amplitude of the square wave
 
@@ -42,21 +42,62 @@ plt.ylabel(r"$V_{in}(t)$")
 plt.legend()
 plt.grid(True)
 plt.savefig("figs/input_wave.png")
+plt.xticks([0, alpha * T, T, (1 + alpha) * T, 2 * T], [r"$0$", r"$\alpha T$", r"$T$", r"$(1 + \alpha)T$", r"$2T$"])
 plt.show()
 
 
-
-
+#plotting the current response of the RL circuit through fourier series and RK4 method for different L/R values
 t = np.linspace(0, 100, 5000)
-plt.plot(t, fs.compute_current(R, L, w0 * 10, t, alpha), color = "purple", linewidth = 1, label = "Fourier Series")
-plt.plot(nm.rl_rk4(R, L, alpha, amp, T/10, 1/50, 5000)[0][:], nm.rl_rk4(R, L, alpha, amp, T/10, 1/50, 5000)[1][:], label = "RK4")
-plt.title("Current response of the numerical methods vs the fourier series approximation")
-plt.xlabel("Time (t)")
-plt.ylabel("Current (i)")
-plt.legend()
-plt.grid(True)
-#plt.savefig("figs/fourier_vs_actual.png")
+fig, axes = plt.subplots(3, 1, figsize=(10, 10), sharex=True)
+axes[0].plot(t, fs.compute_current(R, L, w0 * 100, t, alpha), color = "purple", linewidth = 1, label = "Fourier Series")
+axes[0].plot(nm.rl_rk4(R, L, alpha, amp, T/100, 1/50, 5000)[0][:], nm.rl_rk4(R, L, alpha, amp, T/100, 1/50, 5000)[1][:], label = "RK4")
+axes[0].set_title("Current response of the numerical methods vs the fourier series approximation")
+axes[0].set_xlabel("Time (t)")
+axes[0].set_ylabel("Current (i)")
+axes[0].legend(loc = "best")
+axes[0].grid(True)
+axes[1].plot(t, fs.compute_current(R, L, w0 * 10, t, alpha), color = "purple", linewidth = 1, label = "Fourier Series")
+axes[1].plot(nm.rl_rk4(R, L, alpha, amp, T/10, 1/50, 5000)[0][:], nm.rl_rk4(R, L, alpha, amp, T/10, 1/50, 5000)[1][:], label = "RK4")
+axes[1].set_title("Current response of the numerical methods vs the fourier series approximation")
+axes[1].set_xlabel("Time (t)")
+axes[1].set_ylabel("Current (i)")
+axes[1].legend(loc = "best")
+axes[1].grid(True)
+axes[2].plot(t, fs.compute_current(R, L, w0, t, alpha), color = "purple", linewidth = 1, label = "Fourier Series")
+axes[2].plot(nm.rl_rk4(R, L, alpha, amp, T, 1/50, 5000)[0][:], nm.rl_rk4(R, L, alpha, amp, T, 1/50, 5000)[1][:], label = "RK4")
+axes[2].set_title("Current response of the numerical methods vs the fourier series approximation")
+axes[2].set_xlabel("Time (t)")
+axes[2].set_ylabel("Current (i)")
+axes[2].legend(loc = "best")
+axes[2].grid(True)
+plt.savefig("figs/fourier_vs_numerical.png")
 plt.show()
+
+
+#errors with the current response of the RL circuit to the fourier series approximation and the numerical methods
+print("Mean Absolute Error in current response of Numerical methods vs Fourier Series\n")
+n = 10000
+t = np.linspace(0, 100, n)
+error_forward_euler = np.array(nm.rl_forward_euler(R, L, alpha, amp, T / 10, h, n)[1]) - np.array(fs.compute_current(R, L, w0 * 10, t, alpha))
+error_forward_euler = np.linalg.norm(error_forward_euler, ord = 1)
+print("For Forward Euler:", error_forward_euler / n)
+
+error_backward_euler = np.array(nm.rl_backward_euler(R, L, alpha, amp, T / 10, h, n)[1]) - np.array(fs.compute_current(R, L, w0 * 10, t, alpha))
+error_backward_euler = np.linalg.norm(error_backward_euler, ord = 1)
+print("For Backward Euler:", error_backward_euler / n)
+
+error_trapezoidal = np.array(nm.rl_trapezoidal(R, L, alpha, amp, T / 10, h, n)[1]) - np.array(fs.compute_current(R, L, w0 * 10, t, alpha))
+error_trapezoidal = np.linalg.norm(error_trapezoidal, ord = 1)
+print("For Trapezoidal:", error_trapezoidal / n)
+
+error_rk4 = np.array(nm.rl_rk4(R, L, alpha, amp, T / 10, h, n)[1]) - np.array(fs.compute_current(R, L, w0 * 10, t, alpha))
+error_rk4 = np.linalg.norm(error_rk4, ord = 1)
+print("For RK4:", error_rk4 / n)
+
+error_adams_bashforth_moulton = np.array(nm.rl_adams_bashforth_moulton(R, L, alpha, amp, T / 10, h, n - 3)[1]) - np.array(fs.compute_current(R, L, w0 * 10, t, alpha))
+error_adams_bashforth_moulton = np.linalg.norm(error_adams_bashforth_moulton, ord = 1)
+print("For Adams Bashforth Moulton:", error_adams_bashforth_moulton / n)
+
 
 
 #current response of the RL circuit to the square wave input
@@ -89,7 +130,7 @@ def rl_forward_euler_fourier(r, l, alpha, amp, T, h, N, n):
 #comparing the mean absolute error between the current response of the fourier series and the actual square wave input got through the forward euler numerical method
 i1 = rl_forward_euler_square(1, 1, alpha, amp, T, h, 1000)
 
-print("Mean Absolute Error in current when:")
+print("\n\nVariation of Mean Absolute Error between the current response with input as forward euler and input as the Fourier approximation with number of terms int eh series:\n")
 
 i2_10 = rl_forward_euler_fourier(1, 1, alpha, amp, T, h, 10, 1000)
 error_10 = np.array(i1) - np.array(i2_10)
