@@ -1,6 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+import os
+
+# Create directory for figures
+os.makedirs('figs', exist_ok=True)
 
 alpha_vals = [0.125, 0.25, 0.5, 0.75, 0.875]
 k = np.arange(-50, 51, 5)
@@ -31,8 +35,8 @@ for idx, alpha in enumerate(alpha_vals):
     ax.set_ylabel(r"$|C_k|$")
     ax.set_title(r"Magnitude Spectrum for $\alpha$ = " + str(alpha))
     ax.grid(True)
-
     axes.append(ax)
 
 plt.tight_layout()
+plt.savefig("figs/magnitude_spectrum.png")
 plt.show()
