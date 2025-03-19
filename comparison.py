@@ -41,8 +41,8 @@ plt.xlabel("Time (t)")
 plt.ylabel(r"$V_{in}(t)$")
 plt.legend()
 plt.grid(True)
-plt.savefig("figs/input_wave.png")
 plt.xticks([0, alpha * T, T, (1 + alpha) * T, 2 * T], [r"$0$", r"$\alpha T$", r"$T$", r"$(1 + \alpha)T$", r"$2T$"])
+plt.savefig("figs/input_wave.png")
 plt.show()
 
 
