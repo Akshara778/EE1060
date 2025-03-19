@@ -1,12 +1,14 @@
 import numpy as np
 
 
+#input square wave function
 def square(t, T, alpha, amp):
     if (t % T) < T * alpha:
         return amp
     else:
         return 0
 
+#function to calculate the derivative of current wrt time for the RL circuit
 def f(r, l, t, i, T, alpha, amp):
     return (square(t, T, alpha, amp) / l) - ((i * r) / l)
 

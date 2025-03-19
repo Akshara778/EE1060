@@ -13,9 +13,12 @@ alpha = 0.5    # Duty cycle (fraction of the period the wave is "high")
 h = 0.001      # Step size
 amp = 10       # Amplitude of the square wave
 
+
+#actual square wave 
 def square(t, T, alpha, amp):
     return np.where((t % T) < T * alpha, amp, 0)
 
+#fourier series approximation of the square wave
 def fourier_series(t, T, alpha, N, amp = 10):
     sum = amp * alpha
     for k in range(1, N + 1):
@@ -40,6 +43,7 @@ plt.grid(True)
 plt.savefig("figs/input_wave.png")
 plt.show()
 
+#current response of the RL circuit to the square wave input
 def rl_forward_euler_square(r, l, alpha, amp, T, h, n):
     t_coord = []
     i_coord = []
@@ -52,6 +56,7 @@ def rl_forward_euler_square(r, l, alpha, amp, T, h, n):
         t += h
     return i_coord
 
+#current response of the RL circuit to the fourier series approximation of the input wave
 def rl_forward_euler_fourier(r, l, alpha, amp, T, h, N, n):
     t_coord = []
     i_coord = []

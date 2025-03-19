@@ -6,7 +6,7 @@ def compute_current(R, L, w0, t, alpha, N=200):
     i_t = (10 * alpha / R) * (1 - np.exp(-t / tau))  
 
     # Summation term
-    sum_term = np.zeros_like(t)
+    sum_term = 0
     for n in range(1, N + 1):
         an = (10 * np.sin(2 * np.pi * alpha * n)) / (np.pi * n)
         bn = (20 * (np.sin(np.pi * alpha * n) ** 2)) / (np.pi * n)

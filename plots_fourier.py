@@ -21,7 +21,7 @@ alpha_values = [1/8, 1/2, 7/8]
 titles = [r"$\alpha = \frac{1}{8}$", r"$\alpha = \frac{1}{2}$", r"$\alpha = \frac{7}{8}$"]
 case = ["<<", "=", ">>"]
 
-
+#plotting the response of the RL circuit to the fourier series approximation of the input wave for different alpha and L/R values
 for j in range(3):
     # Create subplots with shared x-axis, stacked vertically
     fig, axes = plt.subplots(3, 1, figsize=(10, 8), sharex=True)
