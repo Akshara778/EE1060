@@ -31,7 +31,7 @@ for i in range(3):
     ax1.plot(nm.rl_trapezoidal(r, l, alpha, amp, T, h, n)[0], nm.rl_trapezoidal(r, l, alpha, amp, T, h, n)[1], label = "Trapezoidal")
     ax1.plot(nm.rl_rk4(r, l, alpha, amp, T, h, n)[0][:], nm.rl_rk4(r, l, alpha, amp, T, h, n)[1][:], label = "RK4")
     ax1.plot(nm.rl_adams_bashforth_moulton(r, l, alpha, amp, T, h, n)[0], nm.rl_adams_bashforth_moulton(r, l, alpha, amp, T, h, n)[1], label = "Adams Bashforth Moulton")
-    ax1.plot(nm.rl_milne_simpson(r, l, alpha, amp, T, h, n)[0], nm.rl_milne_simpson(r, l, alpha, amp, T, h, n)[1], label = "Milne Simpson")
+    #ax1.plot(nm.rl_milne_simpson(r, l, alpha, amp, T, h, n)[0], nm.rl_milne_simpson(r, l, alpha, amp, T, h, n)[1], label = "Milne Simpson")
     ax1.legend()
     case = "Case " + str(i + 1) + ": L/R " + cases[i] + " T, " + titles[0]
     ax1.set_xlabel("Time (t)")
@@ -47,7 +47,7 @@ for i in range(3):
     ax1.plot(nm.rl_trapezoidal(r, l, alpha, amp, T, h, n)[0], nm.rl_trapezoidal(r, l, alpha, amp, T, h, n)[1], label = "Trapezoidal")
     ax1.plot(nm.rl_rk4(r, l, alpha, amp, T, h, n)[0][:], nm.rl_rk4(r, l, alpha, amp, T, h, n)[1][:], label = "RK4")
     ax1.plot(nm.rl_adams_bashforth_moulton(r, l, alpha, amp, T, h, n)[0], nm.rl_adams_bashforth_moulton(r, l, alpha, amp, T, h, n)[1], label = "Adams Bashforth Moulton")
-    #plt.plot(nm.rl_milne_simpson(r, l, alpha, amp, T, h, n)[0], nm.rl_milne_simpson(r, l, alpha, amp, T, h, n)[1], label = "Milne Simpson")
+    #ax1.plot(nm.rl_milne_simpson(r, l, alpha, amp, T, h, n)[0], nm.rl_milne_simpson(r, l, alpha, amp, T, h, n)[1], label = "Milne Simpson")
     ax1.legend()
     case = "Case " + str(i + 1) + ": L/R " + cases[i] + " T, " + titles[1]
     ax1.set_xlabel("Time (t)")
@@ -63,7 +63,7 @@ for i in range(3):
     ax1.plot(nm.rl_trapezoidal(r, l, alpha, amp, T, h, n)[0], nm.rl_trapezoidal(r, l, alpha, amp, T, h, n)[1], label = "Trapezoidal")
     ax1.plot(nm.rl_rk4(r, l, alpha, amp, T, h, n)[0][:], nm.rl_rk4(r, l, alpha, amp, T, h, n)[1][:], label = "RK4")
     ax1.plot(nm.rl_adams_bashforth_moulton(r, l, alpha, amp, T, h, n)[0], nm.rl_adams_bashforth_moulton(r, l, alpha, amp, T, h, n)[1], label = "Adams Bashforth Moulton")
-    #plt.plot(nm.rl_milne_simpson(r, l, alpha, amp, T, h, n)[0], nm.rl_milne_simpson(r, l, alpha, amp, T, h, n)[1], label = "Milne Simpson")
+    #ax1.plot(nm.rl_milne_simpson(r, l, alpha, amp, T, h, n)[0], nm.rl_milne_simpson(r, l, alpha, amp, T, h, n)[1], label = "Milne Simpson")
     ax1.legend()
     case = "Case " + str(i + 1) + ": L/R " + cases[i] + " T, " + titles[2]
     ax1.set_xlabel("Time (t)")
