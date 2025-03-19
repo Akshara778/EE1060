@@ -47,13 +47,14 @@ plt.show()
 
 
 #plotting the current response of the RL circuit through fourier series and RK4 method for different L/R values
-t = np.linspace(0, 100, 5000)
+t = np.linspace(0, 10, 5000)
 fig, axes = plt.subplots(3, 1, figsize=(10, 10), sharex=True)
 axes[0].plot(t, fs.compute_current(R, L, w0 * 100, t, alpha), color = "purple", linewidth = 1, label = "Fourier Series")
-axes[0].plot(nm.rl_rk4(R, L, alpha, amp, T/100, 1/50, 5000)[0][:], nm.rl_rk4(R, L, alpha, amp, T/100, 1/50, 5000)[1][:], label = "RK4")
+axes[0].plot(nm.rl_rk4(R, L, alpha, amp, T/100, 1/500, 5000)[0][:], nm.rl_rk4(R, L, alpha, amp, T/100, 1/500, 5000)[1][:], label = "RK4")
 axes[0].set_title("Current response of the numerical methods vs the fourier series approximation")
 axes[0].set_xlabel("Time (t)")
 axes[0].set_ylabel("Current (i)")
+axes[0].set_xlim(0, 10)
 axes[0].legend(loc = "best")
 axes[0].grid(True)
 axes[1].plot(t, fs.compute_current(R, L, w0 * 10, t, alpha), color = "purple", linewidth = 1, label = "Fourier Series")
