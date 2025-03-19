@@ -55,7 +55,7 @@ for alpha in alpha_vals:
         if val != 0:
             Ck[i] = np.abs((20 / (np.pi * val)) * np.sin(np.pi * val * alpha))
         else:
-            Ck[i] = 19.5
+            Ck[i] = 10 * alpha
     for i in range(len(k_vals)):
         ax1.plot([alpha, alpha], [k_vals[i], k_vals[i]], [0, Ck[i]], 'k-', linewidth=0.5)  # Stem line
         ax1.scatter(alpha, k_vals[i], Ck[i], color='b', s=10)  # Marker at the top
