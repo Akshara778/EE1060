@@ -6,8 +6,8 @@ import os
 # Create directory for figures
 os.makedirs('figs', exist_ok=True)
 
-alpha_vals = [0.125, 0.25, 0.5, 0.875, 0.975]  # Different alpha values
-n = np.arange(-50, 51)  # Range for n
+alpha_vals = [0.125, 0.25, 0.5, 0.75, 0.875]  # Different alpha values
+n = np.arange(-50, 51, 1)  # Range for n
 
 fig = plt.figure(figsize=(12, 8))
 gs = gridspec.GridSpec(3, 3, height_ratios=[1, 1.2, 1.2])  # 3 rows, 3 columns
