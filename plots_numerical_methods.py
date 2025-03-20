@@ -13,8 +13,8 @@ r = 1
 l = 1
 amp = 10
 T = 10
-h = 0.001
-n = 100000
+h = 0.01
+n = 1000000
 n_alpha = 20000
 cases = ["<<", "=", ">>"]
 titles = [r"$\alpha = \frac{1}{8}$", r"$\alpha = \frac{1}{2}$", r"$\alpha = \frac{7}{8}$"]
@@ -89,9 +89,4 @@ for i in range(3):
     plt.savefig("figs/general_plot_" + str(i + 1) + ".png")
     plt.show()
 
-    T /= 10
-    if(i == 0):
-        n = 10000
-    elif(i == 1):
-        h = 0.0001
-        n = 50000
+   

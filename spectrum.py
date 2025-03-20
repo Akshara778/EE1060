@@ -21,7 +21,7 @@ for idx, alpha in enumerate(alpha_vals):
         if val != 0:
             Ck[i] = np.abs((20 / (np.pi * val)) * np.sin(np.pi * val * alpha))
         else:
-            Ck[i] = 19.5
+            Ck[i] = 10 * alpha
 
     if idx < 3:  # First 3 plots in the first row
         ax = fig.add_subplot(gs[0, idx])

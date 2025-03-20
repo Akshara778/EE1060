@@ -76,8 +76,8 @@ plt.show()
 
 #errors with the current response of the RL circuit to the fourier series approximation and the numerical methods
 print("Mean Absolute Error in current response of Numerical methods vs Fourier Series\n")
-n = 10000
-t = np.linspace(0, 100, n)
+n = 1000000
+t = np.linspace(0, 10000, n)
 error_forward_euler = np.array(nm.rl_forward_euler(R, L, alpha, amp, T / 10, h, n)[1]) - np.array(fs.compute_current(R, L, w0 * 10, t, alpha))
 error_forward_euler = np.linalg.norm(error_forward_euler, ord = 1)
 print("For Forward Euler:", error_forward_euler / n)
