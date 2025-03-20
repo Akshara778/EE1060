@@ -79,7 +79,7 @@ gs = gridspec.GridSpec(3, 3, height_ratios=[1, 1.2, 1.2])  # 3 rows, 3 columns
 axes = []  # List to store subplot axes
 
 for idx, alpha in enumerate(alpha_vals):
-    phase_spectrum = np.arctan2(1 - np.cos(2 * np.pi * n * alpha), -np.sin(2 * np.pi * n * alpha))
+    phase_spectrum = np.arctan(- np.sin(np.pi * alpha * n) /  np.cos(np.pi * alpha * n))
 
     if idx < 3:  # First 3 plots in the first row
         ax = fig.add_subplot(gs[0, idx])
